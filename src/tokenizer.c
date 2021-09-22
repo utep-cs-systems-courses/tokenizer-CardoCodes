@@ -3,7 +3,7 @@
 
 int space_char(char c){
 
-  if(c == ' ' || c == '\t' || c == '\n' && c != '\0') //true if c is space, tab, nonzero
+  if(c == ' ' || c == '\t' || c == '\0') //true if c is space, tab, or terminator
     return 1;
   return 0;
 }
@@ -15,41 +15,42 @@ int non_space_char(char c){
 }
 
 char *word_start(char *str){
-  while(*str){
-    // printf("word_start %c\n",*str);
-    if(non_space_char(*str)){
-      //printf("returning a string\n");
-      return str;}
+  while(non_space_char(str[0]) == 0)//loop until we see a non_space_char
     str++;
-  }
-  printf("Coming to null");
-  return NULL;
+  return str;
 }
 
 char *word_terminator(char *word){
-  while(word){
-    if(space_char(*word))
-      return word;
+  while(non_space_char(word[0]) == 1)//loop util we see no longer see a non_space_char
     word++;
-  }
-  return NULL;
+  return word;
 }
 
 int count_words(char *str){
-  if(word_start(str) == 0)
-    return 0;
-  if(*word_terminator(word_start(str)) == 0)
-    return 1;
-  return count_words(word_terminator(word_start(str)))+1;
+  int count = 0;
+  while(1){
+    str = word_start(str);
+    if(str[1] == '\0')
+      break;
+    count++;
+
+    str = word_terminator(str);
+    if(str[0] == '\0')
+      break;
+  }
+  printf("# of words: %d\n", count);
+  return count;
 }
 
 char *copy_str(char *inStr, short len){
-  char *copy = (char*)malloc(len+1);
-  size_t counter;
-  for(counter = 0; counter < len; counter++){
-    copy[counter] = inStr[counter];
+  char *copy = malloc(len);
+  int i = 0;
+  while(len != 0){
+    copy[i] = inStr[i];
+    i++;
+    len--;
   }
-  copy[counter] = '\0';
+  copy[i] = '\0';
   return copy;
 }
 
@@ -90,4 +91,3 @@ void free_tokens(char **tokens){
   }
   free(tokens); //free all tokens
 }
-

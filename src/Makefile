@@ -1,6 +1,13 @@
+OBJS= tokenizer.o GUI.o
+#target
+all: tokenizer
 
-tokenizer.o: tokenizer.c tokenizer.h
+#file dependenices
+tokenizer.o: tokenizer.h
+history.o: history.h
+GUI.o: tokenizer.h history.h
 
-	gcc -c tokenizer.c
+tokenizer: $(OBJS)
+
+#delete files
 clean: rm -f test *.o *~ *#
-
