@@ -1,4 +1,5 @@
 OBJS= tokenizer.o GUI.o
+
 #target
 all: tokenizer
 
@@ -10,4 +11,5 @@ GUI.o: tokenizer.h history.h
 tokenizer: $(OBJS)
 
 #delete files
-clean: rm -f test *.o *~ *#
+clean:
+	rm -f *.o *~ tokenizer history

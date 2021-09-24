@@ -27,17 +27,18 @@ char *word_terminator(char *word){
 }
 
 int count_words(char *str){
-  int count = 0;
+  int count = 0; //keep count of words
   while(1){
-    str = word_start(str);
+    str = word_start(str);// move to first char
     if(str[1] == '\0')
       break;
-    count++;
+    count++;//increment count
 
-    str = word_terminator(str);
+    str = word_terminator(str); //move to terminator
     if(str[0] == '\0')
       break;
   }
+  //print word count
   printf("# of words: %d\n", count);
   return count;
 }
@@ -55,39 +56,50 @@ char *copy_str(char *inStr, short len){
 }
 
 char **tokenize(char *str){
+  //get the amount of words and allocate memory
   int words = count_words(str);
   char **tokens = (char**)malloc((words+1)*sizeof(char*));
+
+  //variables used in code
   char *begin;
   char *end;
   int len = 0;
   char **ptr = tokens;
   int i = 0;
 
-  
+  //while loop to copy string into tokens[i]
   while(i < words){
+    //calculate len of word
     begin = word_start(str);
     end = word_terminator(begin);
     len = end - begin;
-    tokens[i] = copy_str(begin,len+1);
+
+    //copy string into tokenizer
+    tokens[i] = copy_str(begin, len+1);
     str = word_terminator(end);
     i++;
   }
+
+  //null terminator at end
   tokens[i] = '\0';
   return tokens;
 }
 
 void print_tokens(char **tokens){
-  for(int t=0; tokens[t]!="\0";t++){
-    printf("Tokens: %s \n", tokens[t]);
+  //print tokens as long as not null
+  //prevent segmentation fault
+  for(int t=0; tokens[t]!= NULL; t++){
+    printf("[%d] %s\n", t, tokens[t]);
   }
 }
 
 void free_tokens(char **tokens){
-  int t = 0;
+  
+  int t = 0; //keep track of tokens
   while(tokens[t]){
     printf("%s", tokens[t]);
     free(tokens[t]);
     t++;
-  }
+  } 
   free(tokens); //free all tokens
 }

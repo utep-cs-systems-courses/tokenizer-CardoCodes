@@ -1,14 +1,36 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "tokenizer.h"
+#include "history.h"
 int main(){
-  char input[256];
-  puts("$");
-  fgets(input, 100, stdin);
-  printf("%s\n", input);
+  //init history
+  List* list = init_history();
 
-  char **tkn = tokenize(input);
-  print_tokens(tkn);
-  free_tokens(tkn);
-  return 0;
+  
+  while(1){
+    puts("Commands: q = quit program, h = print history");
+    puts("Enter a sentance to tokenize: ");
+
+    char *userInput = (char*)malloc(sizeof(char*));
+    fgets(userInput, 100, stdin);
+
+    if(strcmp(userInput, "q\n") == 0){
+      puts("Program Terminated");
+      break;
+    }
+    else if(userInput[0] == '!'){
+      int x = userInput[1];
+      printf("getting history at pos:  %d\n", x);
+      printf("H[%d] %s\n", x, get_history(list, x));
+    }
+    else{
+      puts("----------Tokens--------");
+      char ** tkns = tokenize(userInput);
+      print_tokens(tkns);
+      add_history(list, userInput);
+      puts("-------Free Tokens------");
+      free_tokens(tkns);
+    }
+  }
 }
