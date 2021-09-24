@@ -6,7 +6,6 @@
 int main(){
   //init history
   List* list = init_history();
-
   
   while(1){
     puts("Commands: q = quit program, h = print history");
@@ -23,6 +22,11 @@ int main(){
       int x = userInput[1];
       printf("getting history at pos:  %d\n", x);
       printf("H[%d] %s\n", x, get_history(list, x));
+    }
+    else if(strcmp(userInput,"h\n") == 0){
+      puts("---------History--------");
+      print_history(list);
+      free_history(list);
     }
     else{
       puts("----------Tokens--------");

@@ -1,4 +1,4 @@
-OBJS= tokenizer.o GUI.o
+OBJS= tokenizer.o GUI.o history.o
 
 #target
 all: tokenizer
